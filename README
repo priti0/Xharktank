@@ -1,0 +1,58 @@
+
+# XharkTank Backend
+
+Backend of XharkTank where budding entrepreneurs can pitch ideas for a business or product they wish to develop by providing their name, title & idea for the business, the investment amount they expect to be fulfilled, and the percentage of equity they are ready to shed away to the potential investors. Investors must be able to retrieve the list of all pitches and share their feedback/comments with a counter offer as per their interests.
+
+## Tech stack used
+* Node.js for runtime
+* Express for API framework in Node.js
+* MongoDB for database
+
+## Endpoints exposed
+
+### Create pitch
+POST `/pitches`
+**Required fields**
+1. entrepreneur: `string`
+2. pitchTitle: `string`
+3. pitchIdea: `string`
+4. askAmount: `number`
+5. equity: `number`, must be between `0` and `100`
+
+**Response**
+* `201` when created successful
+  * id: `string`
+* `400` Bad request if any field validation is violated
+
+### Make offer
+POST `/pitches/:pitchId/makeOffer`
+**Params**
+* pitchId: `string` Id of the pitch for which the offer is created
+
+**Required fields**
+1. investor: `string`
+2. comment: `string`
+3. amount: `string`, must be less than or equal to `askAmount` in the pitch
+4. equity: `number`, must be between `0` and `100`
+
+**Response**
+* `201` when created successful
+  * id: `string`
+* `404` when corresponding pitch is not found
+* `400` Bad request if any field validation is violated
+
+### List pitches
+GET `/pitches`
+Get list of pitches in chronological order. Latest first.
+
+**Response**
+* `200`
+
+### Get pitch
+GET `/pitches/:pitchId`
+**Params**
+* pitchId: `string` Id of the pitch for which the offer is created
+
+**Response**
+* `200`
+* `404` when corresponding pitch is not found
